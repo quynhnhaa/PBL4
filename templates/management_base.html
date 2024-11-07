@@ -1,0 +1,113 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    {% tailwind_css %}
+</head>
+<body class="w-full min-h-screen bg-cover bg-main-bg ">
+    
+    <div class="relative flex w-full min-h-screen bg-white bg-opacity-10 backdrop-blur-md">
+        <div class="w-64 h-[calc(100vh-2rem)] m-4 px-10 py-6 bg-white rounded-xl">
+            <h2 class="text-xl font-bold text-sky-900 w-28">
+                BKLanManager
+            </h2>
+            <ul class="flex flex-col pt-20 gap-y-6">
+                <li >
+                    <a href="{% url 'home' %}" class="flex items-center py-2 text-sky-800 group hover:text-sky-400 hover:cursor-pointer">
+                        <i class="w-8 fill-current fa-solid fa-house"></i>
+                        <span class="absolute w-1.5 h-8 bg-sky-400 rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition-transform ease-in-out"></span>
+                        Trang chủ
+                    </a>
+                    
+                </li>
+                <li >
+                    <a href="{% url 'computers' %}" class="flex items-center py-2 text-sky-800 group hover:text-sky-400 hover:cursor-pointer">
+                        <i class="w-8 fill-current fa-solid fa-computer"></i>
+                        <span class="absolute w-1.5 h-8 bg-sky-400 rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition-transform ease-in-out"></span>
+                        Quản lý máy
+                    </a>
+                </li>
+                <li >
+                    <a href="{% url 'observer' %}" class="flex items-center py-2 text-sky-800 group hover:text-sky-400 hover:cursor-pointer">
+                        <i class="w-8 fill-current fa-solid fa-eye"></i>
+                        <span class="absolute w-1.5 h-8 bg-sky-400 rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition-transform ease-in-out"></span>
+                        Giám sát
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="flex flex-col pt-20">
+                <p class="flex items-center py-2 text-sky-800 group hover:text-sky-400 hover:cursor-pointer" id="notificationBtn">
+                    <i class="w-8 fill-current fa-solid fa-bell"></i>
+                    <span class="absolute w-1.5 h-8 bg-sky-400 rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition-transform ease-in-out"></span>
+                    Thông báo
+                </p>
+                <ul class="hidden overflow-y-scroll border-t-2 h-28 text-sky-950 scrollbar-hide border-sky-950 border-opacity-40" id="notificationList">
+                </ul>
+                <form action="{% url 'distribution' %}" method="post" id="disForm">
+                    {% csrf_token %}
+                    <input type="text" name="ip" hidden value="" id="disFormIp">
+                </form>
+                <script>
+                    const disForm= document.getElementById("disForm");
+                    const disFormIp = document.getElementById("disFormIp");
+            
+                    function submitDisForm(ip) {
+                        disFormIp.value = ip; // Gán IP của máy tính đang click vào đây
+                        console.log(disForm);
+                        disForm.submit();
+                    }
+                </script>
+            </div>
+        </div>
+    
+        
+        {% block content %}
+            
+        {% endblock %}
+        
+        
+        <!-- {% include 'partials/management/_editInfo.html' %} -->
+
+    </div>
+
+    <script>
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationList = document.getElementById('notificationList');
+        
+
+        notificationBtn.addEventListener('click', () => {
+            notificationList.classList.toggle('hidden');
+        });
+
+        function updateNotificationList() {
+            // Fetch new notifications from server
+            fetch('getAllNotifications')
+               .then(response => response.json())
+               .then(data => {
+                    // Clear previous notifications
+                    notificationList.innerHTML = '';
+                    data.forEach(notification => {
+                        var newNotification = document.createElement('li');
+                        newNotification.onclick = () => submitDisForm(notification.computerIP);
+                        newNotification.classList.add('py-2', 'text-sm', 'border-b', 'cursor-pointer', 'border-sky-950', 'border-opacity-30', 'hover:bg-sky-950', 'hover:bg-opacity-10');
+                        newNotification.textContent = `${notification.name} (${notification.numOfMessages})`;
+                        notificationList.appendChild(newNotification);
+                    });
+               });
+        }
+
+        setInterval(updateNotificationList, 5000);
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,382 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    {% tailwind_css %}
+</head>
+<body class="w-full min-h-screen bg-cover bg-main-bg ">
+    <div class="relative flex w-full min-h-screen bg-white bg-opacity-10 backdrop-blur-md">
+        <div class="w-64 h-[calc(100vh-2rem)] m-4 px-10 py-6 bg-white rounded-xl">
+            <h2 class="text-xl font-bold text-sky-900 w-28">
+                BKLanManager
+            </h2>
+            <ul class="flex flex-col pt-20 gap-y-6">
+                <li >
+                    <a href="{% url 'home' %}" class="flex items-center py-2 text-sky-800 group hover:text-sky-400 hover:cursor-pointer">
+                        <i class="w-8 fill-current fa-solid fa-house"></i>
+                        <span class="absolute w-1.5 h-8 bg-sky-400 rounded-r-full left-0 scale-y-0 -translate-x-full group-hover:scale-y-100 group-hover:translate-x-0 transition-transform ease-in-out"></span>
+                        Trang chủ
+                    </a>
+                </li>
+            </ul>
+            
+        </div>
+    
+<!--         
+        {% block content %}
+            
+        {% endblock %} -->
+        <div class="flex flex-1 h-screen py-4 pr-4 overflow-y-scroll">
+            <div class="p-4 mr-4 transition-all duration-500 ease-in-out basis-[30%] rounded-xl bg-sky-950" id="computerScreen">
+                <img src="{{ MEDIA_URL }}screenshots/{{ computer.image_name }}" alt="Có lẽ bạn chưa kết nối tới SERVER" class="object-cover w-full rounded-xl text-sky-50" id="screenShot">
+                <div class="mt-4">
+                    <h2 class="w-full text-xl font-bold text-center text-sky-50" >{{computer.name}}</h2>
+                    <div class="flex flex-col gap-5" id="computerInfo">
+                        <div class="flex-1">
+                            <p class="py-1 text-base font-normal text-left text-opacity-60 text-sky-50">Địa chỉ IP : {{ computer.ip}}</p>
+                            <p class="py-1 text-base font-normal text-left text-opacity-60 text-sky-50">Địa chỉ MAC : {{ computer.mac_address}}</p>
+                            <p class="py-1 text-base font-normal text-left text-opacity-60 text-sky-50">Phòng/Khoa : {{ computer.departmentName}}</p>
+                        </div>
+                        <div class="flex-1">
+                            <p class="py-1 text-base font-normal text-left text-opacity-60 text-sky-50">
+                                Mô tả : 
+                                {{ computer.description }}
+                            </p>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <div class="relative flex flex-col basis-[70%] transition-all duration-500 ease-in-out bg-sky-50 rounded-xl" id="chattingBox">
+                <div id="loader" class="absolute items-center justify-center hidden w-full h-full bg-opacity-50 bg-sky-950 rounded-xl">
+                    <div id="loadingSpinner" class="w-10 h-10 transform border-4 rounded-full border-sky-100 border-l-sky-600 spinner"></div>
+                </div>
+                <div class="flex-1 p-4 overflow-y-scroll scrollbar-hide" id="chatContents">
+                    
+                    
+                </div>
+                <div class="flex p-4 space-x-5 bg-sky-950 rounded-xl">
+                    <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." class="w-full py-2 border-none outline-none focus:outline-none focus:border-none focus:ring-0 bg-sky-50 rounded-xl" autocomplete="off">
+                    <button class="px-4 py-2 rounded-xl text-sky-950 bg-sky-50 hover:bg-opacity-95" id="requestBtn">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <button class="px-4 py-2 rounded-xl text-sky-100 bg-sky-950 hover:bg-sky-400" id="sendBtn">Gửi</button>
+                </div>
+                <div class="absolute hidden w-full h-full z-1 bg-sky-950 bg-opacity-20 rounded-xl" id="modalBg">
+                </div>
+                <div class="absolute z-10 hidden w-2/4 p-4 -translate-x-1/2 -translate-y-1/2 shadow-lg bg-sky-50 top-1/2 left-1/2 rounded-xl" id="requestModal">
+                    <h2 class="p-5 text-xl font-bold text-center text-sky-950 ">Yêu cầu</h2>
+                    <form action="" class="px-10 my-3">
+                        <div class="relative my-3 ">
+                            <label for="selectedAction" class="text-base font-medium text-sky-950">Hành động</label>
+                            <div class="f-full relative after:absolute after:border-t-[8px] after:border-r-8 after:border-l-8 after:border-r-transparent after:border-l-transparent after:right-3 after:top-2/3 after:-mt-2 after:border-t-sky-950">
+                                <input type="text" readonly id="selectedAction" name="action" required class="w-full p-2 mt-1 border border-solid outline-none border-sky-950 border-opacity-40 rounded-xl focus:ring-0 focus:border-sky-900">
+                            </div>
+                            <div class="absolute w-full h-40 p-2 bg-slate-50 border border-solid border-sky-950 border-opacity-40 -bottom-[164px] rounded-xl hidden" id="selectActionGroup">
+                                <input type="text" id="optionSearch" placeholder="Tìm kiếm" class="w-full py-1 border-none outline-none focus:outline-none focus:border-none focus:ring-0 bg-slate-50">
+                                <ul class="overflow-y-scroll border-t-2 h-28 text-sky-950 scrollbar-hide border-sky-950 border-opacity-40">
+                                    <li class="py-2 text-sm border-b cursor-pointer border-sky-950 border-opacity-30 hover:bg-sky-950 hover:bg-opacity-10" onclick="selectAction('Đổi máy')">Đổi máy</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <label for="message" class="text-base font-medium text-sky-950">Lời nhắn</label>
+                            <textarea id="message" name="message" required class="w-full p-2 mt-1 border border-solid outline-none border-sky-950 border-opacity-40 rounded-xl focus:ring-0 focus:border-sky-900"></textarea>
+                        </div>
+                        <div class="flex justify-end gap-3 my-2">
+                            <button type="button" class="h-10 px-4 text-base font-medium transition duration-500 bg-white border-2 border-solid rounded-lg outline-none border-sky-950 border-opacity-60 text-sky-950 text-opacity-60 hover:bg-sky-950 hover:border-opacity-60 hover:text-sky-50">Hủy</button>
+                            <button type="submit" class="h-10 px-4 text-base font-medium text-white transition duration-500 border-2 border-solid rounded-lg outline-none border-sky-800 bg-sky-800 hover:bg-opacity-20 hover:text-sky-950 hover:border-opacity-15" id="requestSubmitBtn">Gửi yêu cầu</button>
+                        </div>
+                    </form>
+                </div> 
+            </div>  
+        </div>
+        
+        
+        <!-- {% include 'partials/management/_editInfo.html' %} -->
+
+    </div>
+
+    <script>
+        const screen = document.getElementById('computerScreen');
+        const chattingBox = document.getElementById('chattingBox');
+        const chatInput = document.getElementById('chatInput');
+        const chatContents = document.getElementById('chatContents');
+        const sendBtn = document.getElementById('sendBtn');
+        const requestBtn = document.getElementById('requestBtn');
+        const modalBg = document.getElementById('modalBg');
+        const requestModal = document.getElementById('requestModal');
+        const computerInfo = document.getElementById('computerInfo');
+        const computerScreen = document.getElementById('screenShot');
+        const loader = document.getElementById('loader');
+        const selectedAction = document.getElementById('selectedAction');
+        const selectActionGroup = document.getElementById('selectActionGroup');
+        const requestSubmitBtn = document.getElementById('requestSubmitBtn');
+
+        const currentIP = window.location.hostname;
+        const socket = new WebSocket(`ws://${currentIP}:6969`);
+
+        socket.onopen = () => {
+            socket.send("client-" +  "{{computer.ip}}");
+        };
+
+        function handleMessage(tinnhan) {
+            if (tinnhan[0] == '1') {
+                var newMessage = document.createElement('div');
+                newMessage.classList.add('flex', 'items-center','justify-end', 'py-2', 'mb-2');
+                if (tinnhan[1] == '0') {   
+                    newMessage.innerHTML = `<div class="max-w-[calc(90%)] px-4 py-2 bg-sky-950 bg-opacity-20 rounded-xl">${tinnhan.substring(2)}</div>`;
+                } else if (tinnhan[1] == '1') {
+                    var requestMessage = tinnhan.substring(2);
+                    var requestBox = document.createElement('div');
+                    requestBox.classList.add('min-w-[300px]', 'px-4', 'bg-sky-950', 'rounded-xl','bg-opacity-20','w-1/2','py-2');
+                    requestBox.innerHTML = `<p class="text-lg font-semibold text-center text-sky-950">Yêu cầu đổi máy</p>
+                                            <p class="text-sky-950">Lời nhắn : ${requestMessage}</p>`;
+                    newMessage.appendChild(requestBox);
+                } else if (tinnhan[1] == '2') {
+                    timestamp = tinnhan.substring(2);
+                    var responseList = Array.from(chatContents.getElementsByClassName('responseList'));
+                    for (var e of responseList) {
+                        if (e.getAttribute('data-timestamp') == timestamp) {
+                            e.style.display = 'none';
+                            break;
+                        }
+                    }
+                    newMessage.innerHTML = `<div class="min-w-[300px] w-1/2 px-4 py-4 bg-sky-950 bg-opacity-20 rounded-xl text-center text-sky-950">Đã đồng ý tắt máy</div>`;
+                } else if (tinnhan[1]=='3') {
+                    var separator = tinnhan.indexOf('!');
+                    timestamp = tinnhan.substring(separator+1);
+                    var responseList = Array.from(chatContents.getElementsByClassName('responseList'));
+                    for (var e of responseList) {
+                        if (e.getAttribute('data-timestamp') == timestamp) {
+                            e.style.display = 'none';
+                            break;
+                        }
+                    }
+                    messageContent = tinnhan.substring(2,separator);
+                    newMessage.innerHTML = `<div class="min-w-[300px] w-1/2 px-4 py-4 bg-sky-950 bg-opacity-20 rounded-xl text-center text-sky-950">Đã đồng ý đổi sang máy : ${messageContent}</div>`;
+                } else if (tinnhan[1] == '4') {
+                    var requestMessage = tinnhan.substring(2);
+                    var separator = requestMessage.indexOf('!');
+                    var timestamp,messageContent;
+                    if (separator !== -1) {
+                        timestamp = requestMessage.substring(0,separator);
+                        messageContent = requestMessage.substring(separator+1);          
+                    }
+                    var requestBox = document.createElement('div');
+                    requestBox.classList.add('min-w-[300px]', 'px-4', 'bg-sky-950', 'rounded-xl','bg-opacity-20','w-1/2','py-2');
+                    requestBox.innerHTML = `<p class="text-lg font-semibold text-center text-sky-950">Yêu cầu đổi máy</p>
+                                            <p class="text-sky-950">Lời nhắn : ${messageContent}</p>
+                                            <div class="relative my-3 idleComputer" data-timestamp="${timestamp}">
+                                                <label class="text-base font-medium text-sky-950">Máy rảnh</label>
+                                                <div class="relative f-full">
+                                                    <input type="text" readonly required class="w-full p-2 mt-1 border border-solid outline-none border-sky-950 border-opacity-40 rounded-xl focus:ring-0 focus:border-sky-900" value="Đang chờ">
+                                                </div>
+                                            </div>`;
+                    newMessage.appendChild(requestBox);
+                }
+                chatContents.appendChild(newMessage);
+            } else {
+                var newMessage = document.createElement('div');
+                newMessage.classList.add('flex', 'items-center','justify-start', 'py-2', 'mb-2');
+                if (tinnhan[1] == '0') {
+                    newMessage.innerHTML = `<div class="max-w-[calc(90%)] px-4 py-2 bg-sky-950 bg-opacity-20 rounded-xl">${tinnhan.substring(2)}</div>`;
+                } else if (tinnhan[1] == '1') {
+                    var requestMessage = tinnhan.substring(2);
+                    var separator = requestMessage.indexOf('!');
+                    var computerName,messageContent,timestamp;
+                    if (separator !== -1) {
+                        computerName = requestMessage.substring(0,separator);
+                        messageContent = requestMessage.substring(separator+1);
+                    }
+                    separator = messageContent.indexOf('!');
+                    if (separator!== -1) {
+                        timestamp = messageContent.substring(0,separator);
+                        messageContent = messageContent.substring(separator+1);
+                    }
+                    var requestBox = document.createElement('div');
+                    requestBox.classList.add('min-w-[300px]', 'px-4', 'bg-sky-950', 'rounded-xl','bg-opacity-20','w-1/2','py-2');
+                    requestBox.innerHTML = `<p class="text-lg font-semibold text-center text-sky-950">Yêu cầu đổi máy</p>
+                                            <p class="text-sky-950">Máy rảnh : ${computerName}</p>
+                                            <p class="text-sky-950">Lời nhắn : ${messageContent}</p>
+                                            <div class="flex justify-end gap-3 my-2 responseList" data-timestamp="${timestamp}">
+                                                <button type="submit" class="h-10 px-4 text-base font-medium text-white transition duration-500 border-2 border-solid rounded-lg outline-none border-sky-800 bg-sky-800 hover:bg-opacity-20 hover:text-sky-950 hover:border-opacity-15" onclick="confirmRequest.call(this,'đổi máy','${computerName}','${timestamp}')">Đồng ý</button>
+                                            </div>`;
+                    newMessage.appendChild(requestBox);
+                } else if (tinnhan[1] == '2') {
+                    var requestMessage = tinnhan.substring(2);
+                    var separator = requestMessage.indexOf('!');
+                    var timestamp,messageContent;
+                    if (separator !== -1) {
+                        timestamp = requestMessage.substring(0,separator);
+                        messageContent = requestMessage.substring(separator+1);          
+                    }
+                    var requestBox = document.createElement('div');
+                    requestBox.classList.add('min-w-[300px]', 'px-4', 'bg-sky-950', 'rounded-xl','bg-opacity-20','w-1/2','py-2');
+                    requestBox.innerHTML = `<p class="text-lg font-semibold text-center text-sky-950">Yêu cầu tắt máy</p>
+                                            <p class="text-sky-950">Lời nhắn : ${messageContent}</p>
+                                            <div class="flex justify-end gap-3 my-2 responseList" data-timestamp="${timestamp}">
+                                                <button type="button" class="h-10 px-4 text-base font-medium transition duration-500 bg-white border-2 border-solid rounded-lg outline-none border-sky-950 border-opacity-60 text-sky-950 text-opacity-60 hover:bg-sky-950 hover:border-opacity-60 hover:text-sky-50">Hủy</button>
+                                                <button type="submit" class="h-10 px-4 text-base font-medium text-white transition duration-500 border-2 border-solid rounded-lg outline-none border-sky-800 bg-sky-800 hover:bg-opacity-20 hover:text-sky-950 hover:border-opacity-15" onclick="confirmRequest.call(this,'Tắt máy','Null','${timestamp}')">Đồng ý</button>
+                                            </div>`;
+                    newMessage.appendChild(requestBox);
+                } else if (tinnhan[1] == '4') {
+                    var requestMessage = tinnhan.substring(2);
+                    var separator = requestMessage.indexOf('!');
+                    var timestamp,messageContent;
+                    if (separator !== -1) {
+                        timestamp = requestMessage.substring(0,separator);
+                        messageContent = requestMessage.substring(separator+1);          
+                    }
+                    var responseList = Array.from(chatContents.getElementsByClassName('idleComputer'));
+                    for (var e of responseList) {
+                        if (e.getAttribute('data-timestamp') == timestamp) {
+                            const idleComputer = e.getElementsByTagName('input')[0];
+                            idleComputer.value = messageContent;
+                            break;
+                        }
+                    }
+                }
+                chatContents.appendChild(newMessage);
+            }
+        }
+
+        function confirmRequest(action,name,timestamp) {
+            this.parentElement.style.display = 'none';
+            if (action == 'đổi máy') {
+                socket.send("13" + name + "!" + timestamp +  "\n");
+                var newMessage = document.createElement('div');
+                newMessage.classList.add('flex', 'items-center','justify-end', 'py-2', 'mb-2');
+                newMessage.innerHTML = `<div class="min-w-[300px] w-1/2 px-4 py-4 bg-sky-950 bg-opacity-20 rounded-xl text-center text-sky-950">Đã đồng ý đổi sang máy : ${name}</div>`;
+                chatContents.appendChild(newMessage);
+            } else {
+                socket.send("12" + timestamp +  "\n");
+                var newMessage = document.createElement('div');
+                newMessage.classList.add('flex', 'items-center','justify-end', 'py-2', 'mb-2');
+                newMessage.innerHTML = `<div class="min-w-[300px] w-1/2 px-4 py-4 bg-sky-950 bg-opacity-20 rounded-xl text-center text-sky-950">Đã đồng ý tắt máy</div>`;
+                chatContents.appendChild(newMessage);
+            }
+        }
+
+        selectedAction.addEventListener("click", () => {
+            selectActionGroup.classList.toggle("hidden");
+        });
+
+        function selectAction(action) {
+            selectedAction.value = action;
+            selectActionGroup.classList.toggle('hidden');
+    }
+
+        socket.onmessage = (event) => {
+            let dataString = event.data;
+            let dataArray;
+
+            try {
+                // Cố gắng phân tích cú pháp JSON
+                dataArray = JSON.parse(dataString);
+            } catch (error) {
+                dataArray = null;
+            }
+
+            if (Array.isArray(dataArray)) {
+                const cmd = dataArray[0]; // Lệnh đầu tiên
+                const status = dataArray[1]; // Trạng thái
+
+                if (cmd === "cmd") {
+                    if (status === "loading") {
+                        loader.style.display = 'flex';
+                        chatInput.disabled = true; // Vô hiệu hóa input
+                        sendBtn.disabled = true; // Vô hiệu hóa nút gửi
+                    } else if (status === "done") {
+                        loader.style.display = 'none';
+                        chatInput.disabled = false; // Kích hoạt lại input
+                        sendBtn.disabled = false; // Kích hoạt lại nút gửi
+                    }
+                    
+                } else {
+                    console.log(dataArray)
+                    dataArray.forEach(tinnhan => {
+                        handleMessage(tinnhan);
+                    })
+                }
+                
+            } else {
+                handleMessage(event.data);
+            }
+        }
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const message = chatInput.value;
+                if (message) {
+                    const newMessage = document.createElement('div');
+                    newMessage.classList.add('flex', 'items-center','justify-end', 'py-2', 'mb-2');
+                    newMessage.innerHTML = `<div class="max-w-[calc(90%)] px-4 py-2 bg-sky-950 bg-opacity-20 rounded-xl">${message}</div>`;
+                    chatContents.appendChild(newMessage);
+                    chatInput.value = '';
+                    socket.send("10" + message + "\n");
+                }
+            }
+        });
+        sendBtn.addEventListener('click', () => {
+            console.log("4");
+            const message = chatInput.value;
+            if (message) {
+                const newMessage = document.createElement('div');
+                newMessage.classList.add('flex', 'items-center','justify-end', 'py-2', 'mb-2');
+                newMessage.innerHTML = `<div class="max-w-[calc(90%)] px-4 py-2 bg-sky-950 bg-opacity-20 rounded-xl">${message}</div>`;
+                chatContents.appendChild(newMessage);
+                chatInput.value = '';
+                socket.send("10" + message + "\n");
+            }
+        });
+
+        window.addEventListener('beforeunload', () =>
+        {
+            if(socket) socket.close();
+            // fetch('stopScreenshot',{
+            //     method:'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         client_ip: ipaddress.textContent.subtring(13),
+            //     })
+            // })
+        }
+        )
+
+        requestBtn.addEventListener('click', () => {
+            modalBg.style.display = 'block';
+            requestModal.style.display = 'block';
+        })
+
+        requestSubmitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const action = document.getElementById('selectedAction').value;
+            const message = document.getElementById('message').value;
+            console.log(action);
+            modalBg.style.display = 'none';
+            requestModal.style.display = 'none';
+            timestamp = new Date().getTime();
+            var newMessage = document.createElement('div');
+            newMessage.classList.add('flex', 'items-center','justify-end', 'py-2', 'mb-2');
+            var requestBox = document.createElement('div');
+            requestBox.classList.add('min-w-[300px]', 'px-4', 'bg-sky-950', 'rounded-xl','bg-opacity-20','w-1/2','py-2');
+            if (action == 'Đổi máy') {
+                requestBox.innerHTML = `<p class="text-lg font-semibold text-center text-sky-950">Yêu cầu đổi máy</p>
+                                    <p class="text-sky-950">Lời nhắn : ${message}</p>`;
+                socket.send("14" + timestamp +"!"+ message + "\n");
+            }
+            newMessage.appendChild(requestBox);
+            chatContents.appendChild(newMessage);
+        })
+    </script>
+
+</body>
+</html>

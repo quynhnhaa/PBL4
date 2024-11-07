@@ -1,0 +1,33 @@
+{% extends 'auth_base.html' %}
+
+
+{% block content %}
+<div class="flex items-center content-center justify-center h-full">
+    <div class="relative p-10 bg-transparent border-2 border-white border-solid shadow-custom-dark w-96 rounded-2xl backdrop-blur-xl">
+        <h1 class="text-2xl font-bold text-center text-sky-950">Đăng nhập</h1>
+        <form action="" method="post" id="loginForm">
+            {% csrf_token %}
+            <div class="relative w-full h-12 my-8 border-b-2 border-solid border-sky-950">
+                <input type="text" id="username" name="username" required class="w-full h-full bg-transparent border-none outline-none peer text-sky-200 focus:ring-0 custom-autofill" value="">
+                <label for="username" class="absolute text-base font-medium -translate-y-1/2 pointer-events-none top-1/2 left-1 text-sky-950 peer-focus:-top-1 peer-valid:-top-1">Tên đăng nhập</label>
+            </div>
+            <div class="relative w-full h-12 my-8 border-b-2 border-solid border-sky-950">
+                <input type="password" id="password" required name="password" class="w-full h-full bg-transparent border-none outline-none peer text-sky-200 focus:ring-0 custom-autofill" value="">
+                <label for="password" class="absolute text-base font-medium -translate-y-1/2 pointer-events-none top-1/2 left-1 text-sky-950 peer-focus:-top-1 peer-valid:-top-1">Mật khẩu</label>
+            </div>
+            <input type="hidden" name="guest" value="false" id="isGuest">
+            <div class="flex items-center justify-center">
+                <button type="submit" class="w-full h-12 px-8 font-medium text-white bg-sky-900 rounded-xl hover:bg-sky-950">Đăng nhập</button>
+                <button id="guestLoginBtn">Đăng nhập với tư cách khách</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('guestLoginBtn').addEventListener('click', function() {
+            document.getElementById('isGuest').value = 'true';
+            document.getElementById('loginForm').submit();
+        });
+        
+    </script>
+</div>
+{% endblock %}

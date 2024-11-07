@@ -1,0 +1,325 @@
+{% extends 'management_base.html' %}
+
+{% block content %}
+<div class="flex flex-col flex-1 h-screen py-4 pr-4 overflow-y-scroll">
+    <div class="flex items-center justify-between px-10 rounded-xl bg-sky-950 py-7">
+        <div>
+            <h1 class="text-2xl font-semibold leading-relaxed text-sky-50 ">Quản lý máy</h1>
+            <span class="text-base font-medium text-sky-100">Tình trạng, thao tác với các máy tính trong LAN</span>
+        </div>
+    </div>
+    
+    <div class="relative flex flex-1 p-4 mt-4 rounded-xl bg-sky-950">
+        <ul class="flex flex-col items-center justify-start py-8 overflow-y-scroll scrollbar-hide max-h-[500px] w-44 before:bg-sky-950 before:h-8 before:top-0 before:left-4 before:absolute before:w-44 before:z-10 before:rounded-br-lg"> 
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 indicator">
+                    <span class="px-4 text-sm text-left">Tất cả</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">CN Nhiệt - Điện lạnh</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">CN Thông tin</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Cơ khí</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Cơ khí Giao thông</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400">
+                    <span class="px-4 text-sm text-left">Điện</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Điện tử - Viễn thông</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Hóa</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">KH CN Tiên tiến</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Kiến trúc</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Môi trường</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Quản lý Dự án</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">XD Cầu - Đường</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">XD Công trình thủy</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">XD Dân dụng & Công nghiệp</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Phòng Tổ chức - Hành chính</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Phòng KHCN & Hợp tác Quốc tế</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Phòng công tác sinh viên</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Phòng Cơ sở vật chất</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Phòng Đào tạo</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Phòng Khảo thí và Đảm bảo chất lượng giá dục</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Phòng Kế hoạch - Tài chính</span>
+                </button>
+            </li>
+            <li class="w-full">
+                <button class="flex items-center w-full py-3 text-center text-sky-100 hover:text-sky-400 ">
+                    <span class="px-4 text-sm text-left">Phòng Thanh tra - Pháp chế</span>
+                </button>
+            </li>
+        </ul>
+        <div class="flex-1 p-2 rounded-xl bg-sky-50 ">
+            <div class="h-full border-2 border-collapse border-sky-800 rounded-xl">
+                <table class="w-full h-12 ">
+                    <thead>
+                        <tr class="h-12 text-sm font-medium text-sky-800">
+                            <th class="w-[15%] border-collapse border-sky-800 border-r-2 border-b-2">Tên máy</th>
+                            <th class="w-[20%] border-collapse border-sky-800 border-x-2 border-b-2">Khoa</th>
+                            <th class="w-[25%] border-collapse border-sky-800 border-x-2 border-b-2">Mô tả</th>
+                            <th class="w-[15%] border-collapse border-sky-800 border-x-2 border-b-2">IP</th>
+                            <th class="w-[10%] border-collapse border-sky-800 border-x-2 border-b-2">Tình trạng</th>
+                            <th class="w-[15%] border-collapse border-sky-800 border-l-2 border-b-2">Thao tác</th>
+                        </tr>
+                    </thead>
+                </table> 
+                <div class="h-[440px] overflow-y-scroll scrollbar-hide w-full">
+                    <table class="w-full">
+                        <tbody class="">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            
+        </div>
+        
+    </div>
+</div>
+
+<div class="fixed z-20 hidden w-screen h-screen bg-gray-900 bg-opacity-30" id="editModal">
+    <div class="absolute z-30 -translate-x-1/2 -translate-y-1/2 p-y-10 w-[400px] bg-white rounded-xl top-1/2 left-1/2 shadow-lg">
+        <h2 class="p-5 text-xl font-bold text-center text-sky-950 ">Chỉnh sửa thông tin</h2>
+        <form action="" class="px-10 my-3">
+            <input type="text" name="mac_address" hidden value="" id="mac_address">
+            <div class="my-3">
+                <label for="name" class="text-base font-medium text-sky-950">Tên máy</label>
+                <input type="text" id="name" name="name" value="" required class="w-full p-2 mt-1 border border-solid outline-none border-sky-950 border-opacity-40 rounded-xl focus:ring-0 focus:border-sky-900">
+            </div>
+            <div class="my-3">
+                <label for="detail" class="text-base font-medium text-sky-950">Mô tả</label>
+                <textarea id="detail" name="detail"  required class="w-full p-2 mt-1 border border-solid outline-none border-sky-950 border-opacity-40 rounded-xl focus:ring-0 focus:border-sky-900"></textarea>
+            </div>
+            <div class="flex justify-end gap-3 my-2">
+                <button type="button" id="cancelBtn" class="h-10 px-4 text-base font-medium transition duration-500 bg-white border-2 border-solid rounded-lg outline-none border-sky-950 border-opacity-60 text-sky-950 text-opacity-60 hover:bg-sky-950 hover:border-opacity-60 hover:text-sky-50">Hủy</button>
+                <button type="submit" id="submitBtn" class="h-10 px-4 text-base font-medium text-white transition duration-500 border-2 border-solid rounded-lg outline-none border-sky-800 bg-sky-800 hover:bg-opacity-20 hover:text-sky-950 hover:border-opacity-15">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const editModal = document.getElementById('editModal');
+    const tablebody = document.querySelector('table tbody');
+
+
+    var tableRows;
+    var departmentName = 'Tất cả';
+
+    
+
+    function switchModal(mac_address,name,description) {
+        console.log('Switch Modal');
+        editModal.style.display = 'block';
+        document.getElementById('mac_address').value = mac_address;
+        document.getElementById('name').value = name;
+        document.getElementById('detail').value = description;
+    }
+
+
+    
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const mac_address = document.getElementsByName('mac_address')[0].value;
+        const name = document.getElementById('name').value;
+        const description = document.getElementById('detail').value;
+
+        fetch('editComputerInfo',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                mac_address : mac_address,
+                name : name, 
+                description :description,
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success){
+                alert('Cập nhật thông tin thành công!');
+                editModal.style.display = 'none';
+                location.reload();
+            } else {
+                alert('Có lỖi xảy ra, vui lòng thử lại!');
+            }
+        });
+    });
+
+
+
+    cancelBtn.addEventListener('click', () => {
+        editModal.style.display = 'none';
+    });
+
+
+    
+
+    function clearTableBody() {
+        while (tablebody.firstChild) {
+            tablebody.removeChild(tablebody.firstChild);
+        }
+    }
+
+    function updateComputersInfos() {
+        fetch('getComputersInfos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                department : 'all',
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            clearTableBody();
+            data.forEach(computerInfos => {
+                const row = document.createElement('tr');
+                row.classList.add('h-14','text-sm','font-medium','text-sky-800');
+                row.innerHTML = `
+                    <td class="text-center w-[15%] border-collapse border-sky-800 border-r-2 border-b-2 px-1">${computerInfos.name}</td>
+                    <td class="w-[20%] border-collapse border-sky-800 border-x-2 border-b-2 px-1">${computerInfos.department}</td>
+                    <td class="w-[25%] border-collapse border-sky-800 border-x-2 border-b-2 px-1">${computerInfos.description}</td>
+                    <td class="w-[15%] border-collapse border-sky-800 border-x-2 border-b-2 px-1">${computerInfos.ip}</td>
+                    <td class="w-[10%] border-collapse border-sky-800 border-x-2 border-b-2 text-center">${computerInfos.status}</td>
+                    <td class="w-[15%] border-collapse border-sky-800 border-l-2 border-b-2 space-x-2 text-center">
+                        <button class="btn btn-primary btn-sm" onclick="switchModal('${computerInfos.mac_address}','${computerInfos.name}','${computerInfos.description}')">Sửa</button> 
+                        <span>|</span>
+                        <button class="btn btn-danger btn-sm">Xóa</button>
+                    </td>
+                `;
+                tablebody.appendChild(row);
+            });
+            tableRows = document.querySelectorAll("table tbody tr");
+            setTable(departmentName);
+        });
+
+        
+    }
+    
+
+    function handleButtonClick(value) {
+        departmentName = value;
+        setTable(departmentName);
+    }
+
+    function setTable(departmentName) {
+        tableRows.forEach(row => {
+            const khoaCell = row.cells[1].textContent;
+            if (khoaCell == departmentName || departmentName == 'Tất cả') {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // Lấy tất cả các nút button trong danh sách
+    const buttons = document.querySelectorAll('li button');
+
+    // Thêm sự kiện click cho mỗi button
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Lấy giá trị từ thẻ <span> con
+            const spanValue = button.querySelector('span').textContent;
+            // Gọi hàm với giá trị
+            handleButtonClick(spanValue);
+        });
+    });
+
+    
+    updateComputersInfos();
+
+    setInterval(updateComputersInfos, 10000); //
+    //updateComputersInfos(); // Thực thi lần đầu khi trang tải lên
+    
+</script>
+
+
+
+
+{% endblock %}

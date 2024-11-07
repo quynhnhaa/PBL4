@@ -1,0 +1,83 @@
+{% extends 'management_base.html' %}
+
+{% block content%}
+{% load static %}
+<div class="flex flex-col flex-1 h-screen py-4 pr-4 overflow-y-scroll">
+    <div class="flex items-center justify-between px-10 rounded-xl bg-sky-950 py-7">
+        <div>
+            <h1 class="text-2xl font-semibold leading-relaxed text-sky-50 ">Giám sát máy</h1>
+            <span class="text-base font-medium text-sky-100">Quan sát màn hình các máy tính trong LAN</span>
+        </div>
+    </div>
+    <div class="mt-5 py-7 rounded-xl">
+        <h2 class="px-10 text-2xl font-semibold text-sky-50">Khu A</h2>
+        <div class="flex flex-wrap gap-4 mt-5" id="screenShots">
+        </div>
+    </div>
+</div>
+<script>
+    const screenShots = document.getElementById("screenShots");
+    function updateComputersView() {
+        let timestamp = new Date().getTime();
+        fetch('getComputersView',{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                department: 'all',
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            screenShots.innerHTML = ""; // Xóa các hình ảnh c�� đi
+            data.forEach(computer => {
+                const box = document.createElement('div');
+                box.onclick = () => submitDisForm(computer.ip);
+                box.classList.add('relative', 'w-[calc(25%-16px)]','shadow-lg','rounded-xl', 'min-w-64' ,'h-fit');
+                const imgSrc = `/media/screenshots/screenshot-${computer.ip}.png` + "?=" + timestamp;
+                const imgElement = document.createElement("img");
+                
+                imgElement.src = imgSrc;
+                imgElement.alt = "{% static 'screenshots/desktop1.jpg' %}";
+                imgElement.classList.add("object-cover", "w-full", "rounded-xl");
+                const infoDiv = document.createElement("div");
+                infoDiv.classList.add("absolute", "bottom-0", "w-full", "bg-sky-950", "bg-opacity-40", "backdrop-blur-xl", "rounded-b-xl");
+
+                // Tạo phần tử <p> để chứa tên của máy tính
+                const computerName = document.createElement("p");
+                computerName.classList.add("w-full", "p-3", "text-base", "font-medium", "text-left", "text-sky-50");
+                computerName.textContent = computer.name;  // Gán tên máy tính vào đây
+
+                // Thêm phần tử <p> vào <div> infoDiv
+                infoDiv.appendChild(computerName);
+                box.appendChild(imgElement);
+                box.appendChild(infoDiv);
+                screenShots.appendChild(box);
+            });
+        })
+    }
+
+    const body = document.querySelector('body');
+    window.addEventListener('beforeunload', () =>
+    {
+        fetch('stopScreenshot',{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                client_ip: '',
+            })
+        })
+    }
+    )
+
+    updateComputersView();  // Load màn hình đầu tiên
+    setInterval(updateComputersView, 5000); // Update every 5 seconds
+</script>
+
+
+
+
+{% endblock %}

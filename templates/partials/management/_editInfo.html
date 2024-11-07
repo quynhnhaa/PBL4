@@ -1,0 +1,52 @@
+{% load static %}
+<div class="fixed z-20 w-screen h-screen bg-gray-900 bg-opacity-30">
+    <div class="absolute z-30 -translate-x-1/2 -translate-y-1/2 p-y-10 w-[400px] bg-white rounded-xl top-1/2 left-1/2 shadow-lg">
+        <h2 class="p-5 text-xl font-bold text-center text-sky-950 ">Chỉnh sửa thông tin</h2>
+        <form action="" class="px-10 my-3">
+            <input type="text" name="mac_address" hidden value="{{ mac_address }}">
+            <div class="my-3">
+                <label for="name" class="text-base font-medium text-sky-950">Tên máy</label>
+                <input type="text" id="name" name="name" value="{{ name }}" required class="w-full p-2 mt-1 border border-solid outline-none border-sky-950 border-opacity-40 rounded-xl focus:ring-0 focus:border-sky-900">
+            </div>
+            <div class="my-3">
+                <label for="detail" class="text-base font-medium text-sky-950">Mô tả</label>
+                <textarea id="detail" name="detail"  required class="w-full p-2 mt-1 border border-solid outline-none border-sky-950 border-opacity-40 rounded-xl focus:ring-0 focus:border-sky-900">{{ description }}</textarea>
+            </div>
+            <div class="flex justify-end gap-3 my-2">
+                <button type="button" class="h-10 px-4 text-base font-medium transition duration-500 bg-white border-2 border-solid rounded-lg outline-none border-sky-950 border-opacity-60 text-sky-950 text-opacity-60 hover:bg-sky-950 hover:border-opacity-60 hover:text-sky-50">Hủy</button>
+                <button type="submit" id="submitBtn" class="h-10 px-4 text-base font-medium text-white transition duration-500 border-2 border-solid rounded-lg outline-none border-sky-800 bg-sky-800 hover:bg-opacity-20 hover:text-sky-950 hover:border-opacity-15">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const mac_address = document.getElementsByName('mac_address')[0].value;
+        const name = document.getElementById('name').value;
+        const description = document.getElementById('detail').value;
+
+        fetch('editComputerInfo',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                mac_address : mac_address,
+                name : name, 
+                description :description,
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success){
+                alert('Cập nhật thông tin thành công!');
+                location.reload();
+            } else {
+                alert('Có lỖi xảy ra, vui lòng thử lại!');
+            }
+        });
+    });
+</script>

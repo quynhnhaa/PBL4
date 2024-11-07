@@ -1,0 +1,14 @@
+{% extends 'auth_base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="relative h-screen">
+        
+        <img src="{% static 'img/blob-left.svg' %}" alt="" class="absolute object-cover h-screen opacity-70 -z-10">
+        <div class="px-10 pt-32 w-home">
+            <h1 class="text-4xl font-extrabold text-sky-950">BACHKHOA <br> LAN MANAGER</h1>
+            <p class="w-10/12 mt-5 text-xl font-semibold text-gray-600">Quản lý máy tính trong LAN, giám sát thiết bị, cập nhật thông tin.</p>
+            <a href="{% url 'login' %}" class="flex items-center justify-center w-32 h-12 mt-10 text-lg font-medium transition duration-500 bg-transparent border-2 border-solid rounded-md outline-none border-sky-900 text-sky-900 hover:bg-sky-900 hover:text-white">Đăng nhập</a>
+        </div>
+    </div>
+{% endblock %}
